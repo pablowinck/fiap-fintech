@@ -1,0 +1,31 @@
+@keyframes alertIn {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes alertOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.show {
+  animation: alertIn 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.unshow {
+  animation: alertOut 0.3s ease-in-out;
+  opacity: 0;
+}

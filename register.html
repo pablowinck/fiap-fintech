@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="corporate">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar - Fintech</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.2/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="css/globals.css" />
+    <link rel="stylesheet" href="css/area-nao-logada.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="relative">
+    <div class="container mx-auto">
+      <div class="flex justify-center items-center h-screen">
+        <div
+          class="w-[500px] p-8 rounded-lg flex flex-col items-center justify-center gap-4 bg-base-100"
+        >
+          <h1 class="text-4xl font-bold text-center">Registrar</h1>
+          <p class="text-center">Crie sua conta na Fintech</p>
+
+          <form class="w-full" id="register-form">
+            <div class="form-control">
+              <label for="name" class="label">Nome</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="input input-bordered"
+                placeholder="Digite seu nome"
+                required
+              />
+            </div>
+            <div class="form-control">
+              <label for="email" class="label">E-mail</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="input input-bordered"
+                placeholder="Digite seu e-mail"
+                required
+              />
+            </div>
+            <div class="form-control">
+              <label for="password" class="label">Senha</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="input input-bordered"
+                placeholder="Digite sua senha"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-full mt-4">
+              Registrar
+            </button>
+            <a href="index.html" class="btn btn-secondary w-full mt-4">
+              Voltar ao Login
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div
+      role="alert"
+      id="warning"
+      class="alert alert-warning transition-all duration-300 w-1/4 h-8 absolute inset-0 top-4 mx-auto flex gap-2 invisible"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="stroke-current shrink-0 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+        />
+      </svg>
+      <span id="warning-message">Warning: Invalid input!</span>
+    </div>
+  </body>
+  <script>
+    const form = document.getElementById("register-form");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = form.name.value;
+      const email = form.email.value;
+      const password = form.password.value;
+
+      if (!name || !email || !password) {
+        document.getElementById("warning").classList.remove("unshow");
+        document.getElementById("warning").classList.remove("invisible");
+        document.getElementById("warning").classList.add("show");
+        document.getElementById("warning-message").innerText =
+          "Todos os campos são obrigatórios!";
+        setTimeout(() => {
+          document.getElementById("warning").classList.add("unshow");
+          document.getElementById("warning").classList.remove("show");
+        }, 3000);
+        return;
+      }
+
+      window.location.href = "index.html";
+    });
+  </script>
+</html>

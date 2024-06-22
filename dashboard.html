@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="corporate">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Fintech</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.2/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="min-h-screen bg-gray-100">
+    <!-- Navbar -->
+    <div class="navbar bg-base-100">
+      <div class="flex-1">
+        <a class="btn btn-ghost text-xl">Fintech</a>
+      </div>
+      <div class="flex-none">
+        <div class="dropdown dropdown-end">
+          <div
+            tabindex="0"
+            role="button"
+            class="btn btn-ghost btn-circle avatar"
+          >
+            <div class="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS Navbar component"
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+              />
+            </div>
+          </div>
+          <ul
+            tabindex="0"
+            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li><a href="index.html">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <container class="w-full h-full flex justify-center">
+      <div class="max-w-[1440px] py-6 w-full flex flex-col items-center gap-6">
+        <!-- BigNumbers -->
+        <h1 class="text-4xl font-bold w-full">Dashboard</h1>
+        <div class="w-full flex gap-4 flex-col">
+          <h3 class="text-2xl font-semibold">Resumo Financeiro</h3>
+          <div>
+            <div class="stats stats-vertical lg:stats-horizontal shadow">
+              <div class="stat">
+                <div class="stat-title">Recebimentos</div>
+                <div class="stat-value">10K</div>
+                <div class="stat-desc text-green-600">↗︎ 2k (20%)</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-title">Gastos</div>
+                <div class="stat-value">5k</div>
+                <div class="stat-desc text-red-600">↘︎ 1k (17%)</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-title">Sobra</div>
+                <div class="stat-value">5k</div>
+                <div class="stat-desc text-green-600">↗︎ 3k (150%)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container mx-auto grid grid-cols-1 gap-6">
+          <!-- Comparativo Recebimentos e Gastos -->
+          <div class="bg-base-100 p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">
+              Comparativo de Recebimentos e Gastos
+            </h2>
+            <canvas id="comparativeChart" width="400" height="200"></canvas>
+          </div>
+          <!-- Recebimentos -->
+          <div class="bg-base-100 p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Recebimentos</h2>
+            <canvas id="receivablesChart" width="400" height="200"></canvas>
+          </div>
+          <!-- Gastos -->
+          <div class="bg-base-100 p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Gastos</h2>
+            <canvas id="expensesChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+    </container>
+    <script>
+      function getTailwindColor(colorClass) {
+        const element = document.createElement("div");
+        element.className = colorClass;
+        document.body.appendChild(element);
+        const style = getComputedStyle(element);
+        const color = style.backgroundColor;
+        document.body.removeChild(element);
+        return color;
+      }
+
+      const primaryColor = getTailwindColor("bg-primary");
+      const primaryBorderColor = getTailwindColor("bg-primary-content");
+      const secondaryColor = getTailwindColor("bg-secondary");
+      const secondaryBorderColor = getTailwindColor("bg-secondary-content");
+
+      const labels = [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+      ];
+      const receivablesData = [5000, 4000, 6000, 7000, 5000, 8000, 10000];
+      const expensesData = [3000, 2000, 4000, 5000, 3000, 6000, 5000];
+
+      // Gráfico Comparativo
+      const ctx1 = document.getElementById("comparativeChart").getContext("2d");
+      const comparativeChart = new Chart(ctx1, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Recebimentos",
+              data: receivablesData,
+              backgroundColor: primaryColor,
+              borderColor: primaryBorderColor,
+              borderWidth: 1,
+            },
+            {
+              label: "Gastos",
+              data: expensesData,
+              backgroundColor: secondaryColor,
+              borderColor: secondaryBorderColor,
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
+      // Gráfico de Recebimentos
+      const ctx2 = document.getElementById("receivablesChart").getContext("2d");
+      const receivablesChart = new Chart(ctx2, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Recebimentos",
+              data: receivablesData,
+              backgroundColor: primaryColor,
+              borderColor: primaryBorderColor,
+              borderWidth: 1,
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
+      // Gráfico de Gastos
+      const ctx3 = document.getElementById("expensesChart").getContext("2d");
+      const expensesChart = new Chart(ctx3, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Gastos",
+              data: expensesData,
+              backgroundColor: secondaryColor,
+              borderColor: secondaryBorderColor,
+              borderWidth: 1,
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
